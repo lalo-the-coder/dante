@@ -19,7 +19,7 @@ export default {
 
 <style>
 .app {
-  margin: 3em auto;
+  margin: 1em auto;
   max-width: 1000px;
 
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.06);

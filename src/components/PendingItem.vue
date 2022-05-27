@@ -1,5 +1,5 @@
 <template>
-  <div class="item">
+  <div class="item" :class="{ item__due: dueNear() }">
     <article class="content">
       <div class="item__dual">
         <section class="info_item priority">
@@ -12,12 +12,8 @@
         <strong>Due date</strong> {{ pending.due_date }}
       </section>
       <div class="item__dual">
-        <div class="">
-          <button @click.prevent="deletePending" class="delete">Delete</button>
-        </div>
-        <div class="">
-          <button @click.prevent="donePending" class="done">Done</button>
-        </div>
+        <div class="btn btn__delete" @click.prevent="deletePending">Delete</div>
+        <div class="btn btn__done" @click.prevent="donePending">Done</div>
       </div>
     </article>
     <!-- {{ pending }} -->
@@ -26,6 +22,7 @@
 
 <script setup>
 import { defineProps, defineEmits } from "vue";
+import { format, parseISO, isTomorrow } from "date-fns";
 const props = defineProps(["pending"]);
 const emit = defineEmits(["deletePending", "donePending"]);
 
@@ -36,21 +33,31 @@ function deletePending(id) {
 function donePending() {
   emit("donePending");
 }
-// console.log(props.pending);
+
+function dueNear() {
+  var result = isTomorrow(
+    format(parseISO(props.pending.due_date), "yyyy-MM-dd")
+  );
+  return result;
+}
 </script>
 
 <style>
 /* #43ED3F; */
+/* #FFD6D6 */
+/* #FFFFFF */
 
 .item {
   width: calc(100% / 4 - 24px);
-  /* width: calc((100% / 4) - 24px); */
   margin: 0.75rem;
   text-align: center;
-  /* border: 1px solid #232323; */
-  background-color: #f0f0f0;
+  background-color: #ffffff;
   border-radius: 7px;
-  /* transition: all 0.2s ease-in-out; */
+  max-height: 250px;
+}
+
+.item__due {
+  background-color: #ffd6d6;
 }
 
 .content {
@@ -123,7 +130,7 @@ function donePending() {
 .delete {
   padding: 2px;
   display: flex;
-  background: red;
+  background: #b0092d;
   text-align: center;
   color: aliceblue;
 }
@@ -133,5 +140,28 @@ function donePending() {
   text-align: center;
   pad: 0.5rem;
   padding: 2px;
+}
+
+.btn {
+  width: 100%;
+  margin-top: 0px;
+  padding: 5px;
+  border: none;
+  border-radius: 0 4px 0 4px;
+  color: #fff;
+  font-size: 0.95rem;
+  letter-spacing: 2px;
+  text-align: center;
+  outline: none;
+  cursor: pointer;
+}
+
+.btn__delete {
+  background-color: #b0092d;
+  margin-right: 5px;
+}
+.btn__done {
+  background-color: #43ed3f;
+  margin-left: 5px;
 }
 </style>

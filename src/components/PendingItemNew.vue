@@ -14,7 +14,7 @@
   width: calc(100% / 4 - 24px);
   margin: 0.75rem;
   text-align: center;
-  background-color: #f0f0f0;
+  background-color: #43ed3f;
   border-radius: 7px;
   text-align: center;
 }
@@ -28,6 +28,7 @@
   align-items: center;
   font-size: 8rem;
   cursor: pointer;
+  color: #dfdfdf;
 }
 
 .content:hover {
