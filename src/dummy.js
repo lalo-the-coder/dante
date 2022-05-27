@@ -10,7 +10,7 @@ export const dummy = [
         "id": 2,
         "priority": "High",
         "text": "occaecat incididunt dolor ex minim ipsum cillum",
-        "status": "Deleted",
+        "status": "Done",
         "due_date": "2022-06-17 06:53:02"
       },
       {
@@ -40,5 +40,12 @@ export const dummy = [
         "text": "pariatur proident proident ullamco sunt ut fugiat",
         "status": "Done",
         "due_date": "2022-06-11 05:34:46"
-      }
+      },
+      {
+        "id": 7,
+        "priority": "Low",
+        "text": "Prueba",
+        "status": "Active",
+        "due_date": "2022-06-11 05:34:46"
+      },
   ]
