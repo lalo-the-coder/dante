@@ -1,24 +1,41 @@
 <template>
   <div class="item">
     <article class="content">
-      <header class="text">{{ pending.text }}</header>
       <div class="item__dual">
         <section class="info_item priority">
           Priority: {{ pending.priority }}
         </section>
         <section class="info_item status">Status: {{ pending.status }}</section>
       </div>
+      <section class="text">{{ pending.text }}</section>
       <section class="due_date">
         <strong>Due date</strong> {{ pending.due_date }}
       </section>
+      <div class="item__dual">
+        <div class="">
+          <button @click.prevent="deletePending" class="delete">Delete</button>
+        </div>
+        <div class="">
+          <button @click.prevent="donePending" class="done">Done</button>
+        </div>
+      </div>
     </article>
     <!-- {{ pending }} -->
   </div>
 </template>
 
 <script setup>
-import { defineProps } from "vue";
+import { defineProps, defineEmits } from "vue";
 const props = defineProps(["pending"]);
+const emit = defineEmits(["deletePending", "donePending"]);
+
+function deletePending(id) {
+  emit("deletePending");
+}
+
+function donePending() {
+  emit("donePending");
+}
 // console.log(props.pending);
 </script>
 
@@ -62,7 +79,7 @@ const props = defineProps(["pending"]);
 
 .text {
   padding: 2.75rem 0.95rem;
-  background-color: #43ed3f;
+  /* background-color: #43ed3f; */
   border-radius: 7px 7px 0 0;
   display: flex;
   flex-direction: column;
@@ -100,6 +117,21 @@ const props = defineProps(["pending"]);
   font-size: 0.85rem;
   background: #0034b1;
   color: #f0f0f0;
-  border-radius: 0 0 7px 7px;
+  /* border-radius: 0 0 7px 7px; */
+}
+
+.delete {
+  padding: 2px;
+  display: flex;
+  background: red;
+  text-align: center;
+  color: aliceblue;
+}
+
+.done {
+  background: #43ed3f;
+  text-align: center;
+  pad: 0.5rem;
+  padding: 2px;
 }
 </style>

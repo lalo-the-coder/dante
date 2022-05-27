@@ -1,66 +1,71 @@
 <template>
-  <div class="list">
-    <PendingItem
-      :pending="item"
-      v-for="(item, index) in pendings"
-      :key="index"
-      draggable="true"
-      @dragover="dragOver(evt)"
-      @dragend="dragEnd(evt)"
-    />
+  <div>
+    <draggable
+      class="list"
+      :list="state.pendings"
+      group="people"
+      @start="drag = true"
+      @end="drag = false"
+      item-key="id"
+    >
+      <template #item="{ element }">
+        <PendingItem
+          :pending="element"
+          v-if="element.status != 'Done' && element.status != 'Deleted'"
+          @deletePending="updatePending(element.id, 'del')"
+          @donePending="updatePending(element.id, 'don')"
+        />
+      </template>
+      <template #header>
+        <PendingItemNew @click.prevent="addPending('click')" />
+      </template>
+    </draggable>
+    <PendingItemAdd :show="state.showModal" />
+    <div>Active: {{ activePendings }} Done: {{ donePendings }}</div>
   </div>
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
-import { useMainStore } from "../store.js";
+import { computed, reactive } from "vue";
+// import { useMainStore } from "../store.js";
+import { dummy } from "../dummy";
+import draggable from "vuedraggable";
+
 import PendingItem from "./PendingItem.vue";
+import PendingItemNew from "./PendingItemNew.vue";
+import PendingItemAdd from "./PendingItemAdd.vue";
 
-const main = useMainStore();
+const state = reactive({ pendings: dummy, showModal: false });
 
-const pendings = computed(() => main.getAllPendings);
-const isEmpty = computed(() => main.pendingsEmpty);
+// state.pendings = state.pendings.filter((p) => p.status != "Done");
 
-let selected = ref();
+const activePendings = computed(() => {
+  return state.pendings.filter((p) => p.status === "Active").length;
+});
 
-// function startDrag(evt, item) {
-//   evt.dataTransfer.dropEffect = "move";
-//   evt.dataTransfer.effectAllowed = "move";
-//   evt.dataTransfer.setData("itemID", item.id);
-// }
+const donePendings = computed(() => {
+  return state.pendings.filter((p) => p.status === "Done").length;
+});
 
-// function onDrop(evt, list) {
-//   console.log(evt);
-//   const itemID = evt.dataTransfer.getData("itemID");
-//   const item = this.pendings.find((item) => item.id == itemID);
-// }
-
-function dragOver(e) {
-  if (isBefore(selected, e.target)) {
-    e.target.parentNode.insertBefore(selected, e.target);
-  } else {
-    e.target.parentNode.insertBefore(selected, e.target.nextSibling);
-  }
+function addPending() {
+  state.showModal = true;
 }
 
-function dragEnd() {
-  selected = null;
+function updatePending(id, action) {
+  console.log(action);
+  let idx = state.pendings.findIndex((p) => p.id == id);
+  console.log(`ID: ${idx}`);
+  state.pendings[idx].status =
+    action == "del"
+      ? "Deleted"
+      : action == "don"
+      ? "Done"
+      : state.pendings[idx].status;
 }
 
-function dragStart(e) {
-  e.dataTransfer.effectAllowed = "move";
-  e.dataTransfer.setData("text/plain", null);
-  selected = e.target;
-}
-
-function isBefore(el1, el2) {
-  let cur;
-  if (el2.parentNode === el1.parentNode) {
-    for (cur = el1.previousSibling; cur; cur = cur.previousSibling) {
-      if (cur === el2) return true;
-    }
-  }
-  return false;
+function showCard(element) {
+  console.log(element.status);
+  return;
 }
 </script>
 
@@ -69,5 +74,7 @@ function isBefore(el1, el2) {
   padding: 15px;
   display: flex;
   flex-flow: row wrap;
+  /* overflow-y: scroll;
+  max-height: 580px; */
 }
 </style>

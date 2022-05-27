@@ -22,6 +22,10 @@ export const useMainStore = defineStore({
         },
         removePending(index) {
             this.pendings.splice(index, 1);
+        },
+        setPendings(pendings) {
+            this.pendings = pendings
         }
+
     },
 })

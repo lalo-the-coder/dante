@@ -1,6 +1,6 @@
 <template>
-  <div class="">
-    <h1>Pendings</h1>
+  <div>
+    <h1 class="title">Pendings</h1>
     <pendings-list class="app" />
   </div>
 </template>
@@ -23,5 +23,9 @@ export default {
   max-width: 1000px;
 
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.06);
+}
+
+.title {
+  color: #c0c0c0;
 }
 </style>
