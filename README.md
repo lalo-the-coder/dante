@@ -7,7 +7,7 @@ This repository contains the 24 hrs challenge develop by: Eduardo Arredondo, usi
 
 ## Libraries
 [date-fns](https://date-fns.org/)
-[vuedraggable()https://github.com/SortableJS/Vue.Draggable]
+[vuedraggable](https://github.com/SortableJS/Vue.Draggable])
 
 
 ## Setup the project
